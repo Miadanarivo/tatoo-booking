@@ -88,7 +88,7 @@ function HomeNav() {
           <Link to="/" className="border-b border-[#C9A24B] pb-1 text-[#F4EDE2]">
             Découvrir
           </Link>
-          <Link to="/artists" className="hover:text-[#F4EDE2]">
+          <Link to={user ? '/artists' : '/login'} className="hover:text-[#F4EDE2]">
             Artistes
           </Link>
           <a href="#expertise" className="hover:text-[#F4EDE2]">
@@ -100,35 +100,26 @@ function HomeNav() {
           {user ? (
             <Link
               to="/dashboard"
-              className="hidden text-[13px] uppercase tracking-[0.15em] text-[#B8AF9F] hover:text-[#F4EDE2] sm:inline"
+              className="rounded-full bg-[#C9A24B] px-5 py-2 text-[12px] font-semibold uppercase tracking-[0.15em] text-[#14110F] hover:bg-[#dcb864]"
             >
               Mon espace
             </Link>
           ) : (
             <>
               <Link
-                to="/login"
-                className="hidden text-[13px] uppercase tracking-[0.15em] text-[#B8AF9F] hover:text-[#F4EDE2] sm:inline"
-              >
-                Se connecter
-              </Link>
-              <Link
                 to="/register"
                 className="hidden rounded-full border border-[#C9A24B]/60 px-4 py-1.5 text-[12px] uppercase tracking-[0.15em] text-[#C9A24B] hover:bg-[#C9A24B]/10 sm:inline"
               >
                 S'inscrire
               </Link>
+              <Link
+                to="/login"
+                className="rounded-full bg-[#C9A24B] px-5 py-2 text-[12px] font-semibold uppercase tracking-[0.15em] text-[#14110F] hover:bg-[#dcb864]"
+              >
+                Se connecter
+              </Link>
             </>
           )}
-          <button aria-label="Notifications" className="text-[#B8AF9F] hover:text-[#C9A24B]">
-            <Icon name="bell" />
-          </button>
-          <Link
-            to="/artists"
-            className="rounded-full bg-[#C9A24B] px-5 py-2 text-[12px] font-semibold uppercase tracking-[0.15em] text-[#14110F] hover:bg-[#dcb864]"
-          >
-            Réserver
-          </Link>
         </div>
       </nav>
     </header>
@@ -138,6 +129,8 @@ function HomeNav() {
 /* --------------------------------- page ---------------------------------- */
 
 export default function Home() {
+  const { user } = useAuth();
+
   useEffect(() => {
     document.body.classList.add('fullbleed');
     return () => document.body.classList.remove('fullbleed');
@@ -180,7 +173,7 @@ export default function Home() {
           </p>
           <div className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
             <Link
-              to="/artists"
+              to={user ? '/artists' : '/login'}
               className="rounded bg-[#C9A24B] px-7 py-3 text-[12px] font-semibold uppercase tracking-[0.2em] text-[#14110F] hover:bg-[#dcb864]"
             >
               Découvrir nos artistes
@@ -300,7 +293,7 @@ export default function Home() {
             </p>
           </div>
           <Link
-            to="/artists"
+            to={user ? '/artists' : '/login'}
             className="flex items-center gap-2 text-[12px] uppercase tracking-[0.2em] text-[#C9A24B] hover:text-[#dcb864]"
           >
             Voir le portfolio complet <Icon name="arrow" className="h-3.5 w-3.5" />

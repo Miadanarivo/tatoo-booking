@@ -25,7 +25,11 @@ export function AuthProvider({ children }) {
   };
 
   const register = async (userData) => {
-    const { data } = await api.post('/auth/register', userData);
+    // Conservé pour compatibilité : le flux d'inscription réel (3 étapes)
+    // appelle directement /auth/register/init, /verify-code puis /set-password
+    // depuis la page Register. Cette fonction n'est plus utilisée mais est
+    // laissée ici au cas où un appel direct en une étape serait nécessaire.
+    const { data } = await api.post('/auth/register/init', userData);
     return data;
   };
 

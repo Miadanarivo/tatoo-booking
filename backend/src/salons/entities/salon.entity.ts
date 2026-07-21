@@ -34,6 +34,15 @@ export class Salon {
   @Column({ nullable: true })
   logoUrl: string;
 
+  @Column({ nullable: true })
+  customDomain: string;
+
+  @Column({ nullable: true })
+  instagramUrl: string;
+
+  @Column({ nullable: true })
+  pinterestUrl: string;
+
   @OneToMany(() => Artist, (artist) => artist.salon)
   artists: Artist[];
 

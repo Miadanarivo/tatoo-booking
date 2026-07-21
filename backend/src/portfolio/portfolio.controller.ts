@@ -7,20 +7,18 @@ import {
   Body,
   UseInterceptors,
   UploadedFile,
+  UseGuards,
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { PortfolioService } from './portfolio.service';
 import { CreatePortfolioDto } from './dto/create-portfolio.dto';
-
-// ⚠️ Le JwtAuthGuard sera réactivé une fois le module Auth créé
-// import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
-// import { UseGuards } from '@nestjs/common';
+import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 
 @Controller('portfolio')
 export class PortfolioController {
   constructor(private readonly portfolioService: PortfolioService) {}
 
-  // @UseGuards(JwtAuthGuard) // à réactiver plus tard
+  @UseGuards(JwtAuthGuard)
   @Post(':artistId')
   @UseInterceptors(FileInterceptor('file'))
   async addImage(
@@ -36,7 +34,7 @@ export class PortfolioController {
     return this.portfolioService.findByArtist(artistId);
   }
 
-  // @UseGuards(JwtAuthGuard) // à réactiver plus tard
+  @UseGuards(JwtAuthGuard)
   @Delete(':id')
   async remove(@Param('id') id: string) {
     return this.portfolioService.remove(id);

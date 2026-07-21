@@ -31,7 +31,7 @@ export class User {
   email: string;
 
   @Column()
-  password: string; // hashé avec bcrypt
+  password: string;
 
   @Column({ nullable: true })
   phone: string;
@@ -45,6 +45,28 @@ export class User {
 
   @Column({ default: true })
   isActive: boolean;
+
+  // --- Champs pour le flux d'inscription en 3 étapes ---
+  @Column({ type: 'varchar', nullable: true })
+  verificationCode: string | null;
+
+  @Column({ type: 'timestamp', nullable: true })
+  verificationCodeExpiresAt: Date | null;
+
+  @Column({ default: false })
+  isEmailVerified: boolean;
+
+  @Column({ default: false })
+  hasPassword: boolean;
+  // -------------------------------------------------------
+
+  // --- Champs pour le flux "mot de passe oublié" ---
+  @Column({ type: 'varchar', nullable: true })
+  resetPasswordCode: string | null;
+
+  @Column({ type: 'timestamp', nullable: true })
+  resetPasswordCodeExpiresAt: Date | null;
+  // ---------------------------------------------------
 
   @OneToOne(() => Artist, (artist) => artist.user, { nullable: true })
   artistProfile: Artist;

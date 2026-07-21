@@ -37,6 +37,35 @@ export class MailService {
   }
 
   /**
+   * Envoie un code de vérification pour la réinitialisation du mot de passe
+   */
+  async sendPasswordResetCode(
+    to: string,
+    firstName: string,
+    code: string,
+  ): Promise<void> {
+    try {
+      await this.mailerService.sendMail({
+        to,
+        subject: 'Réinitialisation de votre mot de passe - Ink & Gold',
+        html: `
+          <div style="font-family: Arial, sans-serif;">
+            <h2>Bonjour ${firstName}</h2>
+            <p>Vous avez demandé la réinitialisation de votre mot de passe sur <strong>INK &amp; GOLD</strong>.</p>
+            <p>Voici votre code de vérification :</p>
+            <h1 style="letter-spacing: 5px;">${code}</h1>
+            <p>Ce code expire dans 15 minutes. Si vous n'êtes pas à l'origine de cette demande, ignorez cet email.</p>
+          </div>
+        `,
+      });
+      this.logger.log(`Code de réinitialisation envoyé à ${to}`);
+    } catch (error) {
+      this.logger.error(`Échec envoi email de réinitialisation à ${to}`, error);
+      throw error;
+    }
+  }
+
+  /**
    * Envoie une confirmation de réservation
    */
   async sendBookingConfirmation(
